@@ -3,7 +3,7 @@ package application;
 import user.User;
 import user.UserService;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -55,7 +55,7 @@ public class ConsoleApplication {
 
     private static void showAllUsers(UserService userService) {
         System.out.println("Show all users: ");
-        List<User> users = userService.getUsers();
+        Map<Integer, User> users = userService.getUsers();
         System.out.println(users);
     }
 
@@ -89,9 +89,16 @@ public class ConsoleApplication {
     private static void updateUserId(UserService userService) {
         System.out.println("Set the userId for update: ");
         int userId = scanner.nextInt();
-        System.out.println("Set the new user id for selected user: ");
+        System.out.println("Enter your new user id: ");
         int newUserId = scanner.nextInt();
-        userService.updateUserId(userId, newUserId);
+        System.out.println("Enter your user name: ");
+        scanner.nextLine();
+        String userName = scanner.nextLine();
+        System.out.println("Enter your user email: ");
+        String userEmail = scanner.nextLine();
+        System.out.println("Enter your user age: ");
+        int userAge = scanner.nextInt();
+        userService.updateUserId(userId, new User(newUserId, userName, userEmail, userAge));
         System.out.println();
     }
 }

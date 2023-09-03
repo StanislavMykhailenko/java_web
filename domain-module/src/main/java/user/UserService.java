@@ -2,8 +2,7 @@ package user;
 
 import exceptions.NoSuchElementException;
 import exceptions.ValidationException;
-
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class UserService {
@@ -25,13 +24,13 @@ public class UserService {
                 throw new ValidationException("Entered number should be positive");
             }
             User user = new User(id, name, email, age);
-            userRepository.addUser(user);
+            userRepository.addUser(id, user);
         } catch (ValidationException e) {
             System.out.println("Invalid parameters were entered. Creation failed.");
         }
     }
 
-    public List<User> getUsers() {
+    public Map<Integer, User> getUsers() {
         return userRepository.getUsers();
     }
 
@@ -51,12 +50,12 @@ public class UserService {
         }
     }
 
-    public void updateUserId(int userId, Integer newUserId) {
+    public void updateUserId(int userId, User user) {
         try {
             if (retrieveUser(userId).isEmpty()) {
                 throw new NoSuchElementException("Such user does not exist");
             }
-            userRepository.updateUserById(userId, newUserId);
+            userRepository.updateUserById(userId, user);
             System.out.println("User was updated");
         } catch (NoSuchElementException e) {
             System.out.println("Such user does not exist");

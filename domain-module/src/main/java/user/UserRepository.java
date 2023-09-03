@@ -1,7 +1,7 @@
 package user;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,31 +15,32 @@ public class UserRepository {
         return instance;
     }
 
-    private final List<User> users = usersStorage();
+    private final Map<Integer, User> users = usersStorage();
 
-    private List<User> usersStorage() {
-        List<User> users = new ArrayList<>();
-        users.add(new User(1, "Stas", "s.mykhailenko@spd-ukraine.com", 27));
+    private Map<Integer, User> usersStorage() {
+        Map<Integer, User> users = new HashMap<>();
+        users.put(1, new User(1, "Stas", "s.mykhailenko@spd-ukraine.com", 27));
         return users;
     }
 
-    public List<User> getUsers() {
+    public Map<Integer, User> getUsers() {
         return users;
     }
 
     public Optional<User> getUserById(int id) {
-        return users.stream().filter(user -> user.getId() == (id)).findFirst();
+        return Optional.ofNullable(users.get(id));
     }
 
-    public void addUser(User user) {
-        users.add(user);
+    public void addUser(Integer userId, User user) {
+        users.put(userId, user);
     }
 
     public void deleteUserById(int userId) {
-        users.removeIf(user -> userId == user.getId());
+        users.remove(userId);
     }
 
-    public Optional updateUserById(int id, Integer newId) {
-        return users.stream().filter(user -> user.getId() == (id)).findFirst().get().setId(newId);
+    public Map updateUserById(Integer id, User user) {
+        users.put(id, user);
+        return users;
     }
 }
